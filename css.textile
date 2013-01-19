@@ -4,25 +4,19 @@ h2. Required Comments
 
 Each file must begin with a comment block in the following format:
 
-<pre><code class="css">/**
- * Today Module CSS
- * @module type_today_css
- * @author mseeley, dharmesh, cklaiber
- * @see http://twiki.corp.yahoo.com/view/FrontDoors/MetroTechSpecToday
- * @version CVS &#36;Id:$
+<pre><code class="css">/*                                                                                                                         
+ * Spec:    http://produce.corp.miiicasa.com/spec/my/20120627/Page_3-1_Shared_from_Friend_by_date.html
+ * Mockup:  http://produce.corp.miiicasa.com/mockup/my/20120627/3_1__Shared_from_Friend_by_date.png
  * 
- * Review History:
- * 25-May-09 bug #123456 acastro
- * 12-Jun-09 bug #123456 nzakas
+ * @author  Mei Lin
+ * @created 2012/05/15
  */
 </code></pre>
-
-A brief description should be included as well as a module name. The module name should be unique in the product and should end up *_css*. A YUI Doc module is just a grouping of functionality, such as the DOM Utility, which is made up of numerous parts. This comment section should include the owners of the file, a URL to the documentation, CVS version, and code review history. Each entry for a code review should contain the date that the review was completed, the bug tracking the review, and the person who did the review.
 
 h2. General Format
 
 In general, every CSS rule begins with a selector, followed by a left curly brace on the same line. Each CSS property name-value pair should be indented 4 spaces (no tabs), on it's own line ending with a semicolon. Example:
-<pre><code class="css">.selector1 {
+<pre><code class="css">#selector1 {
     name1: value1;
     name2: value2;
     name3: value3;
@@ -111,7 +105,6 @@ All module styles should begin with the module type ( *type_xxxxx* ).  For examp
 This ensures that the styles are applied to this module only.
 
 h2. Multiple Selectors Format
-
 
 When writing CSS code, multiple selectors separated by a comma should each appear on their own line. For example:
 
