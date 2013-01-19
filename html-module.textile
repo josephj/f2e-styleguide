@@ -10,8 +10,8 @@ h2. Code Conventions
 
 * Each component should have an unique ID, which is not used in other components.
 * Basic component structure 
-<pre><code class="html">
-<div id="module-name">
+
+<pre><code class="html"><div id="module-name">
     <div class="mod-content">
         <div class="hd">
             <h3>module title</h3>
