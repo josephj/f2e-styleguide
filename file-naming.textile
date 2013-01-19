@@ -1,0 +1,51 @@
+h1. File Naming Style
+
+h2. View and Controller Files
+
+* All module files name should be started with an underscore ( _ ).
+
+<pre>
+views/_header.php
+controller/_header.php
+</pre>
+
+h2. CSS and JavaScript files
+
+Like views and controller, all files which dedicated to a specific module must be started with a underscore too.
+
+h2. Image Files
+
+According to image characteristics, we have following prefix for image files:
+
+* ico_ : Icon images
+* bg_ : Background images
+* title_ : Title images
+* li_ : List item images
+* sep_ : Separator images
+* sp_ : CSS sprite images
+* btn_ : Button Images
+
+Most of images should be PNG 8 because it's the best image format on web. If you really need to use PNG 24 image, please add  *_24bit* suffix before file extension. For example, the file bg_up_arrow.png should be  *bg_up_arrow_24bit.png* if it's in PNG 24.
+
+<pre>
+bg_up_arrow.png => bg_up_arrow_24bit.png
+</pre>
+
+The pre-commit hook omits image optimization checking if this suffix is added.
+
+Note: Use _24bit suffix for reason that 256 colors is not enough instead of file size consideration.
+
+h3. Image File Name Grammar
+ 
+<pre>
+<type>_[module]_[nonu]_[status].png
+</pre>
+
+* *Use* these words as verb: add, modify, and remove.
+*  *Don't use* these words as verb: create, update, delete, get, and set.
+* Examples:
+** ico_folder.png
+** ico_folder_add.png
+** ico_folder_remove.png
+** ico_folder_modify.png
+** ico_home_folder_add.png 

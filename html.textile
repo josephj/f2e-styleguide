@@ -1,0 +1,62 @@
+h1. HTML Code Style
+
+h2. Doctype
+
+All HTML should be written using the HTML 5 strict doctype.
+
+<pre><code class="html"><!DOCTYPE html></code></pre>
+
+h2. Element IDs
+
+Element IDs should be written in dash-case, meaning that all letters are lowercase and words are separated with dashes ( _word1-word2-word3 _). Examples:
+
+* _my-header_ 
+* _sky-layout_ 
+* _page-nav_ 
+
+Do not use any characters other than letters, numbers, and dashes. 
+
+h2. Form Element Names
+
+Form elements names should be written in underscore.
+
+h2. Indentation
+
+HTML code should be indented as appropriate by 4 spaces (no tabs).
+
+h2. Semantic Markup
+
+HTML code should be, as much as is possible and practical, semantically significant. This means that the markup represents the data appropriately regardless of its appearance. This is necessary for accessibility purposes. 
+
+h3. Don't Use These Tags
+
+Do not use these html elements in html pages.
+Presentational elements should not be used.
+Support for some elements has been (or will be) deprecated; they should not be used.
+
+h4. Presentational
+
+* b 
+* big
+* hr
+* i
+* small
+* sub
+* sup
+* tt
+
+h4. Deprecated
+
+* basefont
+* center
+* dir
+* font
+* isindex
+* menu
+* s
+* strike
+* u
+
+h2. User Actions (Discuss)
+
+Any user action should be represented by a link. If there is no valid URL associated with the action, the  _href_  attribute should be set to  _javascript:void(0) _. Using "#" can cause issues in some browsers should the link be clicked before JavaScript is attached to the action.

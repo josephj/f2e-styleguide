@@ -1,0 +1,92 @@
+h1. Base CSS
+
+The base CSS files we use everywhere in miiiCasa. It defines *global used class name*. *Don't repeat* writing these styles in your module-level CSS files.
+
+h2. Location
+
+http://a.mimgs.com/lib/mui/base/base.css
+
+h2. Clearing Floats
+
+<pre>
+<code class="css">
+.clearfix {
+    zoom: 1;
+}
+.clearfix:after {
+    clear: both;
+    content: '';                                                                                                                                          
+    display: block;
+}  
+</code></pre>
+
+h2. Font Levels
+
+h3. Cheat Sheet for Font Size
+
+|_.Type |_.Class Name |_.Font Size (px) |_.Font Size (%) |
+| H1 |  x3-large | 28px | 215.4% |
+| H2 | x2-large | 24px | 182.5% |
+| H3 | x-large | 19px, Bold | 146.5% |
+| H4 | large | 16 px, Bold | 123.1% |
+| H5 | med-large | 16 px | 123.1% |
+| H6 | medium | 15px | 116% |
+| H7 | med-small | 14px, Bold | 108% |
+| H8 | small | 14 px | 108% |
+
+<pre><code class="css">
+.small {
+    font-size: 108%;/*14px*/
+}
+.med-small {
+    font-size: 108%;/*14px*/
+    font-weight: bold;
+}
+.medium {
+    font-size: 116%;/*15px*/
+}
+.med-large {
+    font-size: 123.1%;/*16px*/
+}
+.large {
+    font-size: 123.1%;/*16px*/
+    font-weight: bold;
+}
+.x-large {
+    font-size: 146.5%;/*19px*/
+    font-weight: bold;
+}
+.x2-large {
+    font-size: 182.5%;/*24px*/
+}
+.x3-large {
+    font-size: 215.4%;/*28px*/
+}
+</code></pre>
+
+h2. Rounded Corners
+
+<pre><code class="css">
+.rd, .rd3, .rd5, .rd10, .rd3-input {                                                                                                                  
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;                                                                                                                           
+    border-radius: 3px;
+    behavior: url("/static/css3-pie/pie.htc");                                                                                                        
+    background-color: #dfdfdf;
+}                                                                                                                                                 
+.rd5 {
+    -webkit-border-radius: 5px;                                                                                                                       
+    -moz-border-radius: 5px;
+    border-radius: 5px;                                                                                                                           }
+.rd10 {                                                                                                                                                
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;                                                                                                                         
+    border-radius: 10px;
+}
+.rd-input {
+    border: 2px solid #EBE2C6;
+}
+.rd-input:focus {
+    border-color: #E6AC1D;
+}
+</code></pre>

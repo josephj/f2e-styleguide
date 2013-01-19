@@ -1,0 +1,74 @@
+h1. JavaScript Global Constant
+
+JavaScript 的全域變數是邪惡的，因為很容易被覆蓋或影響別人，所以我們應該盡量避免使用。
+但有時候仍需 *在所有頁面共用某些值*  （也就是 Constant）：例如 Host Name 或 Site Name、便於維護或快速切換。因此若你真的有這樣 Constant 的需求，請統一歸納在 *window.MIIICASA* 之下。
+
+h2. Constant File
+
+* 會影響到所有 miiiCasa 網頁的 Constant 設定檔：
+<pre>
+constant.js
+</pre>
+* 我們都有在 yui.js 後指定 Include 此 constant.js，若你有建立新的頁面，也要記得 Include：
+<pre>
+        <file type="js"  src="yui.js" />
+        <file type="js"  src="constant.js" />
+</pre>
+* 同樣 Minify 的 groupsConfig.php 也需要加入此檔案（已加入）：
+<pre><code class="php">
+    "js"  => array(
+        "yui.js",
+        "//constant.js",
+</code></pre>
+
+h2. Usage
+
+* 若此 JavaScript 需要用到，請統一宣告 CONST：
+<pre><code class="javascript">
+var CONST = window.MIIICASA.CONST;
+</code></pre>
+** 避免直接使用，例如： 
+<pre><code class="javascript">
+Y.io(window.MIIICASA.CONST.API_URL + "ws/getData?r=1"); // 不要這樣用喔，統一集中給 CONST。
+</code></pre>
+* 若 CONST 已經被用掉了、你可以這樣做合併：
+<pre><code class="javascript">
+CONST = Y.merge(window.MIIICASA.CONST, CONST); // 後者會蓋掉前者
+</code></pre>
+
+h2. Source Code
+
+constant.js 的內容，僅供參考（可能已經變動了）：
+
+<pre><code class="javascript">
+/*global window */
+/**
+ * This is miiiCasa globally used constants.
+ * Every pages in miiiCasa should have this.
+ */
+(function () {
+    var CONST = {
+        API_URL                 : "http://api.miiicasa.com/",
+        API_PRURL               : "//api.miiicasa.com/",
+        APPS_URL                : "http://apps.miiicasa.com/",
+        CMS_STATIC_URL          : "http://f.mimgs.com/cms/",
+        CMS_STATIC_PRURL        : "//f.mimgs.com/cms/",
+        CLIENT_TIMEOUT          : 12000,
+        HELP_URL                : "http://help.miiicasa.com/",
+        SETUP_URL               : "http://setup.miiicasa.com/",
+        SHORT_URL               : "http://miiicasa.com/s/",
+        SITE_NAME               : "miiiCasa.com",
+        STATIC_URL              : "http://a.mimgs.com/",
+        STATIC_PRURL            : "//a.mimgs.com/",
+        WWW_PRURL               : "//www.miiicasa.com/",
+        WWW_URL                 : "http://www.miiicasa.com/"
+    };
+    if (!window.MIIICASA) {
+        window.MIIICASA = {
+            CONST: CONST
+        };
+    } else {
+        window.MIIICASA.CONST = CONST;
+    }
+}());
+</code></pre>

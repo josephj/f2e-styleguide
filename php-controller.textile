@@ -1,0 +1,234 @@
+h1. Controller Convention
+
+{{>toc}}
+
+[[CodeIgniter]] controller is the entry point of your web page.
+It decides URL of your page. 
+We hope the structure of controller can have better maintainability.
+
+h2. Beginning of Function Name
+
+Sometimes your function is related with database operation, but everyone's habit of naming for a method is different.
+It's recommended to use  *AGUD (add, get, update, and delete)*, instead of CRUD (create, read, update, and delete) or AGMR (add, get, modify, and remove).
+
+<pre>
+<code class="php">
+<?php
+public function add_contact()  not create_contact
+{
+}
+public function get_contact_list()  not read_contact_list
+{
+}
+public function update_contact()  not modify_contact
+{
+}
+public function delete_contact()  not remove_contact
+{
+}
+?>
+</code></pre>
+
+h2. Use GET parameters in most of situations
+
+In CodeIgniter, we can easily to have a very semantic URL in segments like this:
+
+<pre>
+http://www.miiicasa.com/my/contact/group1/sortby/date
+</pre>
+
+You can get values of segments by accessing function arguments.
+
+<pre><code class="php">
+vim ~/miiicasa/index/modules/my/controllers/contact.php
+===
+<?php
+public function index($group_key, $group_id ,$sortby_key, $sortby_field)
+{
+   echo $group_key;      output "group"
+   echo $group_id;       output "1"
+   echo $sortby_key;     output "sortby"
+   echo $sortby_field;   output "date"
+}
+?>
+</code></pre>
+
+Looks great, right? However, there are two reasons that you should  *avoid using this feature *.
+
+# There must be some special characters such as  or &. You must encode these characters before you have any HTTP request. And for HTTP response, you need to decode before using it inside your function. Worst of all, encoding will always make your URL becomes longer, even breaking the GET length limitation (2~3KB). It's really really inconvenience.
+# We apply HMVC development so we have a lot of child controllers and views. Sometimes these child controllers also need to access GET parameters. The only way they can use is using $this->uri->segment(n). It's bad because once your structure changes, you need to check all child controllers.
+
+For there two reasons, please use the following old-fashioned way to form your URLs.
+
+<pre>
+http://www.miiicasa.com/my/contact?gid=1&field=name
+</pre>
+
+h2. Use Function Parameters To Have Better Structure of Controller
+
+Don't use functional parameter to transfer all data.
+However, it's appropriate when the data would only be used in top controller.
+Use switch statement and private methods to make your code better organized.
+The following is the examples.
+
+h3. Example 1 - my/contact.php
+
+# http://www.miiicasa.com/my/contact/create/group
+**  *group*  switch case in  *create()*  public function, call  *_create_group()*  private function.
+<pre><code class="php">
+<?php
+...
+public function create($method)
+{
+    switch ($method)
+    {
+        case "group":
+            $this->_create_group();
+        break;
+    }
+}
+?>
+</code></pre>
+# http:www.miiicasa.commycontactaddcontact 
+**  *contact*  switch case in  *add()*  public function, call  *_add_contact()*  private function.
+# http:www.miiicasa.commycontactaddgroup
+**  *group*  switch case in  *add()*  public function, call  *_add_group()*  private function.
+<pre>
+<code class="php">
+<?php
+...
+public function add($method)
+{
+    switch ($method)
+    {
+        case "group":
+            $this->_add_group();
+        break;
+        case "contact":
+            $this->_add_contact();
+        break;
+    }
+}
+?>
+</code></pre>
+# http:www.miiicasa.commycontactremovecontact
+**  *contact*  switch case in  *remove()*  public function, call  *_remove_contact()*  private function.
+# http:www.miiicasa.commycontactremovegroup
+**  *group*  switch case in  *remove()*  public function, call  *_remove_group()*  private function.
+<pre>
+<code class="php">
+<?php
+...
+public function remove($method)
+{
+    switch ($method)
+    {
+        case "group":
+            $this->_remove_group();
+        break;
+        case "contact":
+            $this->_remove_contact();
+        break;
+    }
+}
+?>
+</code></pre>
+
+h3. Example 2 - myprofile.php 
+
+<pre>
+<code class="php">
+$ vim ~miiicasaindexmodulesmycontrollersprofile.php
+===
+<?php
+...
+public function index()
+{
+}
+public function info($method)
+{
+    switch ($method)
+    {
+        case "save":  http:www.miiicasa.commyprofileinfosave
+            $this->_info_save();
+        break;
+        default:  http:www.miiicasa.commyprofileinfo
+             Default view
+    }
+}
+public function icon($method)
+{
+    switch ($method)
+    {
+        case "save":  http:www.miiicasa.commyprofileiconsave
+            $this->_icon_save();
+        break;
+        case "upload":  http:www.miiicasa.commyprofileiconupload
+            $this->_icon_upload();
+        break;
+        default:  http:www.miiicasa.commyprofileicon
+             Default view       
+    }
+}
+public function location($method)
+{
+    switch ($method)
+    {
+        case "save":  http:www.miiicasa.commyprofilelocationsave
+            $this->_location_save();
+        break;
+        case "data":  http:www.miiicasa.commyprofilelocationdata
+            $this->_location_data();
+        break;
+}
+public function edit($method)
+{
+    switch ($method)
+    {
+        case "add":  http:www.miiicasa.commyprofileeditadd
+            $this->_edit_add();
+        break;
+        case "annotate":  http:www.miiicasa.commyprofileeditannotate
+            $this->_edit_annotate();
+        break;
+    }
+}
+
+ And writes private functions ...
+?>
+</code></pre>
+ 
+h2. Something You Should Avoid
+
+* Avoid to use underscore "_" in your controller. Try to use single word in your segment. 
+** Bad 
+<pre>
+http:www.miiicasa.commyadd_contact
+</pre>
+** Good
+<pre>
+http:www.miiicasa.commycontactadd
+</pre>
+
+
+h2. XSS - User Input Data
+
+Note: Please also refer to [[EngineeringHtmlCodeConventionsView#XSS-UserInputData|XSS - User Input Data]] section in [[EngineeringHtmlCodeConventionsView|HTML Code Convention]].
+
+h3. User Form Submission
+
+* By default we don't deal with what user inputs.
+<pre>
+<code class="php">
+<?php
+$first_name = $this->input->post("first_name");
+?>
+</code></pre> 
+** Use  *trim()*  when Spec defines.
+**  *DON'T*  use  *htmlspecialchar()*   to change user input.
+* For Rich-text editor, we need to specify to use  xss_clean.
+<pre><code class="php">
+<?php
+$content = $this->input->post("content", true);
+?>
+</code></pre>

@@ -1,0 +1,194 @@
+{{>toc}}
+
+h1. JavaScript Localization Convention
+
+We've integrated YUI Intl Utility as a platform extension.  You just need to make sure whether the getTrans() method is existed in Y.!PlatformSandbox instance.
+
+
+h2. Getting Start
+
+h3. Include Dependencies
+
+You need to include following dependencies before you can call localization related methods.
+
+<pre><code class="html">
+<script src="http://yui.yahooapis.com/3.1.1/build/yui/yui-min.js"></script>
+<script src="http://a.mimgs.com/lib/mui/platform/core.js"></script>
+<script src="http://a.mimgs.com/lib/mui/platform/sandbox.js"></script>
+<script src="http://a.mimgs.com/lib/mui/static/platform/lang_service.js"></script>
+</code></pre>
+
+h3. YUI Instance Initialization
+
+<pre>
+<code class="js">
+Y = YUI({
+    filter: "raw", // Currently we don't have minified version yet...
+    lang: "zh-TW", // Default language tag
+    groups: {
+        myapp: {
+            filter: "raw",
+            base: "static/",
+            modules : {
+                "miiicasa" : { // A module JavaScript file must be existed. (~/muchiii/static/miiicasa/miiicasa.js)
+                    lang: ["jp-JP",| "zh-TW", "zh-CN"] // Accepted languages. You should have related language resource files.
+                }
+            }
+        }
+    }
+}).use("substitute", "platform-core", "lang-service", "event-delegate", "miiicasa", "datatype", function (Y) {
+    // Tell platform which YUI module should have language support.
+    Y.PlatformCore.setLangModule("miiicasa");
+    
+});
+</code></pre>
+
+* Check YUI config object first. You need to manually assign a module and it's dependent languages. When using the module, it will automatically fetch current language file with the following rule.
+<pre>
+<base>/<yui-module>/lang/<div-module>_<lang>-<filter>.js
+</pre>
+* Because you assigned module in configuration, you don't have to include each language or YUI module JavaScript files on page. It can load on-demand.
+<pre><code class="javascript">
+YUI( ... configs ... ).use("platform-core", "lang-service", <yui-module>, ..., function (Y) {...});
+</code></pre>
+* And you have to tell platform which YUI module has language resources you need.
+<pre><code class="javascript">
+Y.PlatformCore.setLangModule("<yui-module>");
+</code></pre>
+
+h3. Prepare Language Files
+
+# You need to create language files using following pattern.
+<pre>
+~/miiicasa/static/<codeigniter-module>/lang/<yui-module>_<lang-tag>.js
+</pre>
+** Example:
+<pre>
+~/miiicasa/static/miiicasa/lang/miiicasa_en-US.js
+~/miiicasa/static/miiicasa/lang/miiicasa_zh-TW.js
+~/miiicasa/static/miiicasa/lang/miiicasa_zh-CN.js
+</pre>
+# As for the content of each languge file:
+** Example (~/muchiii/static/miiicasa/lang/miiicasa_zh-TW.js)
+<pre>
+<code class="js">
+YUI.add("lang/miiicasa_zh-TW", function (Y) {
+    Y.Intl.add("miiicasa","zh-TW", {                                                                                                                                
+        "miiicasa-home_device-confirm_msg" : "您確定要刪除此裝置嗎？",
+        "miiicasa-home_device-title" : "家庭檔案分享"
+    });
+}, "3.1.1");
+</code></pre>
+*** Deciding the name for resource key should rely on its semantic structure instead of direct translation.
+<pre>
+<Module Name>-<View File Name>-<Label Name>
+</pre>
+
+h3. Get Translation
+
+You can use Y.Sandbox Instance's getTrans() method to get string translation for current language.
+
+<pre><code class="javascript">
+<Y.Sandbox Instance>.getTrans(<key>, <default>, <tokens>);
+</code></pre>
+
+|_.Parameter |_.Type |_.Description |
+|key |String |You can assign any name as a key. The scope is locked inside a module. For example, you assigned a key called 'foo_msg' inside '#bar' module which is belonging to 'miiicasa' CodeIgniter module. The full key name in both resource file and database would be "miiicasa-bar-foo_msg". For your convenience, you just need to specify 'foo_msg' instead of full name.|
+|default|String|It displays this default string when related language resource file hasn't defined the key yet.|
+|tokens|Object|String replacement token object. You can check the following example. {nickname} keyword would be replaced as Awoo~ because token defines word replacement.|
+
+h4. Sample Code
+
+<pre><code class="javascript">
+YUI.PlatformModules.<div-module> = (function() {
+    var api,
+        node;
+    return {
+        init = function (sandbox) {
+            api = sandbox;
+        },
+        onviewload = function () {
+            node = api.getViewNode();
+            alert(api.getTrans("message_text", "Hello {nickname}!", {nickname: "Awoo~"}));
+        }
+    }
+}
+</code></pre>
+
+h3. Switch Language
+
+The most fancy part of our solution is that we can switch JavaScript languages without reloading page. That means the language file can be on-demand download.
+You can use Y.Sandbox's setLang() method to switch language.
+
+<pre>
+<Y.Sandbox Instance>.setLang(<lang>, <callback>);
+</pre>
+|Parameter|Type|Description|
+|lang|String|The language tag you want switch to.|
+|callback|Function|The callback function which would be executed after the specified language file is loaded.|
+
+h4. Sample Code
+
+<pre><code class="javascript">
+YUI.PlatformModules.<div-module> = (function() {
+    var api, 
+        node,
+        langChangeHandler = function (e) {
+            api.setLang(this.get("value"), function () {
+                alert(api.getTrans("message_text"));
+            });
+        };
+    return {
+        init: function (sandbox) {
+            api = sandbox;
+        },
+        onviewload: function () {
+            var selectNode = api.getViewNode().one("select");
+            selectNode.on("change", langChangeHandler);
+        }
+    }
+}());
+</code></pre>
+
+h3. Get Language
+
+The method lets you know which language user currently uses.
+<pre>
+<Y.Sandbox Instance>.getLang();
+</pre>
+
+
+h2. Demo
+
+* http://josephj.com/project/javascript-platform-yui-demo/lang.php
+
+
+h2. Concept
+
+
+h3. I18N & L10N Explanation
+
+* I18N : Internationalization is the process of designing a software application so that it can be adapted to various languages and regions without engineering changes.
+*** 設計讓某個特定應用程式可以被一個語言或地區使用、且不需要更改工程設計架構的過程。
+* L10N : Localization is the process of adapting internationalized software for a specific region or language by adding locale-specific components and translating text.
+*** 藉由提供在地的元件、翻譯的文字，讓 I18N 的應用程式設計被某一個國家或地區使用的過程。
+* So what we are doing right now (providing translation) is Localization not Internalization.
+
+
+h3. Language Tags
+
+* BCP47 Tag: http://developer.yahoo.com/yui/3/intl/#bcp47
+* We will provide [[language]]-[[country]] as our standard resource bundles. We will only provide script subtag in particular situation.
+
+|Language Tag|Description|
+|zh-CN|Chinese, China|
+|zh-TW|Chinese, Taiwan|
+|en-US|English, United States|
+|en-CA|English, Canada|
+|jp-JP|Japanese, Japan|
+
+
+h2. Related Documentation
+
+* "Localization Tool EDD":http://muchiiilla.corp.miiicasa.com/projects/muchiii/wiki/Engineering/MuchiiiSiteEDD/Localization
+* "Localization solution":http://muchiiilla.corp.miiicasa.com/projects/muchiii/wiki/Engineering/Localization

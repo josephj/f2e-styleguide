@@ -1,0 +1,154 @@
+h1. HTML Module Style
+
+{{>toc}}
+
+h2. What is Component? (Div Module)
+
+For better maintenance, reusability and better code fragment, we use the idea of module development instead of developing the whole page. 
+We call each div module as an component. Each component is  *semantically independent *. For example, in article post page, form and breadcrumb should be separated into two different components since their content is nothing related. Another example, we usually have tips block on article post page. Should we separate tips block and form block into two components? The answer is no because it's a part of the form.  *Don't just make component visually *.
+
+Idealy, the component should be portalbe (including HTML/CSS/JavaScript files) even in different services. 
+
+
+h2. Code Conventions
+
+* Each component should have an unique ID, which is not used in other components.
+* Basic component structure 
+<pre>
+<code class="xml">
+<div id="%%COMPONENT_ID%%">
+    <div class="mod-content">
+        <div class="hd">
+            <h3>%COMPONENT_TITLE%</h3>
+        </div>
+        <div class="bd">
+        </div>
+        <div class="ft">
+        </div>
+    </div>
+</div>
+</code></pre>
+** You can remove .hd or .ft blocks while not used. 
+* Round Corner / Shadow component structure
+<pre>
+<code class="xml">
+<div id="%%COMPONENT_ID%%">
+    <span class="x1"><span class="x1a"></span></span>
+    <span class="x2"><span class="x2a"></span></span>
+    <div class="mod-content">
+        <div class="hd">
+            <h3>%COMPONENT_TITLE%</h3>
+        </div>
+        <div class="bd">
+        </div>
+        <div class="ft">
+        </div>
+    </div>
+</div>
+</code></pre>
+* Always have comments at the beginning and end of file. 
+** To show each component more clearly while viewing HTML source.
+* Use 4 spaces instead of tab.
+** To make sure every developer's editor see the same format and commit same.
+* Each PHP tag should start at the beginning of its line. 
+** By doing this, we can see nice and clean format while viewing HTML source.
+* Each PHP iterative statement and HTML tag should be aligned. 
+** For better maintenance
+* Use PHP script coding styles.
+** It's not easy to distinguish the pairing of braces in component file.
+** &lt;?php if (true) : ?&gt;
+** &lt;?php endif; ?&gt;
+** &lt;?php foreach ($items) : ?&gt;
+** &lt;?php endforeach; ?&gt;
+
+h2. Code Sample
+
+<pre>
+<code class="php">
+<!-- #navigation (start) -->
+<div id="navigation" class="yui-menu yui-menu-horizontal yui-menubuttonnav">
+    <div class="yui-menu-content">
+        <ul>
+<?php
+        $i = 0;
+        foreach ($menu_items as $index => $data) :
+            $i++;
+            $class = '';
+            $selected = '';
+            if ($file_name.'.html' === $data[['url'|]]) :
+                $selected = ' on';
+            endif;
+            switch (true) :
+                case ($i===1) :
+                    $class = ' first-of-type';
+                    break;
+            endswitch;
+?>
+            <li<?php echo (isset($data[['items'|]])) ? '' : ' class="yui-menuitem"'; ?>>
+<?php       if (isset($data[['items'|]])) : ?>
+                <a class="yui-menu-label <?php echo $index; ?><?php echo $class; ?>" href="<?php echo $data[['url'|]]; ?>"><em><?php echo $data[['text'|]]; ?></em></a>
+<?php       else : ?>
+                <a class="yui-menuitem-content <?php echo $index; ?><?php echo $class; ?>" href="<?php echo $data[['url'|]]; ?>"><?php echo $data[['text'|]]; ?></a>
+<?php       endif; ?>
+<?php       if (isset($data[['items'|]])) : ?>
+                <div class="yui-menu">
+                    <div class="yui-menu-content">
+                        <ul>
+<?php
+                $y = 0;
+                foreach ($data[['items'|]] as $sub_index => $sub_data) :
+                    $y++;
+                    $sub_class = '';
+                    switch (true) :
+                        case ($y===1) :
+                            $sub_class = ' first-of-type';
+                            break;
+                    endswitch;
+?>
+                            <li class="yui-menuitem">
+                                <a class="yui-menuitem-content" href="<?php echo $sub_data[['url'|]]; ?>"><?php echo $sub_data[['text'|]]; ?></a>
+                            </li>
+<?php           endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+<?php       endif; ?>
+            </li>
+<?php   endforeach; ?>
+        </ul>
+    </div>
+</div>
+<!-- #navigation (end) -->
+</code></pre>
+
+
+h2. XSS - User Input Data
+
+Note: Please also refer to [[EngineeringControllerConventions#XSS-UserInputData|XSS - User Input Data]] section in [[EngineeringControllerConventions|Controller Code Convention]].
+
+h3. Display in <input/> or <option/> Value
+
+* Always use str_replace() to  *replace double quote ( " )  *.
+<pre>
+<code class="php">
+<input type="text" name="first_name" value="<?php echo str_replace('"', '&quot;', $first_name); ?>">
+</code></pre>
+
+h3. Display in other elements
+
+* Use  *htmlspecialchar()*  in general tags. (&lt;textarea/&gt;, &lt;div/&gt;, &lt;span/&gt; ...)
+<pre>
+<code class="php">
+<span class="name"><?php echo htmlspecialchars($first_name); ?></span>
+</code></pre>
+** NOTE: If user input data is from Rich-text editor, don't do anything then.
+
+h2. Space issue on HTML
+
+* Use *str_convert_space()*
+* a chain of half space will be ignored as a space on HTML. So we have to change every space to "&nbsp;" on HTML.
+
+<pre>
+<code class="php">
+<a href="/my"><?php echo str_convert_space($group_name_specialchars); ?></a>
+</code></pre>

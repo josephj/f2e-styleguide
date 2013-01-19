@@ -1,0 +1,255 @@
+h1. CSS Module Style
+
+Some people think it's easy to write reusable CSS. That's true for small projects. For large project which involves multiple engineers, defining reusable CSS becomes very difficult. Check the following example.
+
+* A engineer:
+<pre>
+.title {
+    font-size: 123.1%;
+}
+em {
+    font-style: normal;
+}
+</pre>
+
+* B engineer:
+<pre>
+body {
+    font-size: 12px;
+}
+em {
+    font-style: italic !important;
+}
+</pre>
+
+If both A and B's CSS exist on page, the disaster starts. What's the true font-size for .title? Normal <em/> style was overwritten by B engineer. So A engineer is going to fix his bugs using !important or some hacks. But he doesn't know his CSS might impact B's styling.
+
+h2. Modularization Using ID Selector
+
+Let's forget CSS reusability first! For avoiding disaster, the first thing is to limit your CSS scope. The easiest way for this is each <div/> module should its own ID Selector namespace. You should focus on single module instead of whole page.
+
+* #header module
+<pre><code class="css">
+#header {border: solid 1px #ccc; margin-bottom: 10px;}
+#header .mod-content {padding: 10px;}
+#header .hd h2 {font-size: 123.1%;}
+...
+</code></pre>
+* #nav module
+<pre><code class="css">
+#nav {border: solid 1px #000; width: 800px; margin: 0 auto;}
+#nav ul li {float: left;}
+...
+</code></pre>
+
+So #header & #nav won't affect each other.
+
+h2. Reusability by Defining Module Type Class Names
+
+Yes, I know it's not efficient to write code like that. Some modules are very similar to another modules. You must find a way to reusable CSS styles. 
+My suggestion is that you achieve this by defining module types. 
+
+After analyzing pages of projects, you should find module similarities. You can then define module type class. All the reusable class starts with .mod.
+<pre>
+.mod-<structure-desc>
+</pre>
+<pre>
+.mod-form
+.mod-photo-list
+.mod-grid
+.mod-img-text
+</pre>
+ 
+* Each reusable module type styles shouldn't have conflict with another module type style.
+* Documentation for reusable CSS is critically important.
+* Use module type class name only in the tag has ID. 
+<pre>
+<div id="share-add-email" class="mod-tab-content">
+</div>
+</pre>
+
+h2. Reusability Sample Implementation
+
+The share/_add_contact module is a module using 3 modularized css classes: mod-tab-menu, mod-tab-content, and mod-share-form.
+<pre><code class="html">
+<!-- #share-add-contact (start) -->
+<div id="share-add-contact" class="mod-tab-menu mod-tab-content mod-share-form">
+...
+</div>
+<!-- #share-add-contact (end) -->
+</code></pre>
+
+!http://farm9.staticflickr.com/8228/8395108658_7d8a231873_o.png!
+
+h3. .mod-tab-menu
+
+!http://farm9.staticflickr.com/8237/8395108642_e237160cda_o.png! 
+
+_mod_tab_menu.css 
+
+<pre><code class="css">
+/* mod-tab-menu (start)  */
+.mod-tab-menu {
+    position: relative;
+    top: 5px;
+    z-index: 1;
+}
+.mod-tab-menu li {
+    float: left;
+}
+.mod-tab-menu a {
+    background-image: url(sp_bg_tabs.png);
+    background-position: 0 -60px;
+    color: #569ea4;
+    float: left;
+    font-size: 138.5%;
+    font-weight: bold;
+    height: 36px;
+    margin-right: 5px;
+    padding-top: 23px;
+    text-align: center;
+    width: 230px;
+}
+.mod-tab-menu a.selected {
+    background-position: 0 0;
+    color: #de4c89;
+}
+/* mod-tab-menu (end)  */
+</code></pre>
+
+h3. .mod-tab-content
+
+!http://farm9.staticflickr.com/8355/8394023627_c5da0abf22_o.png!
+
+_mod_tab_content.css 
+
+<pre><code class="css">
+/* mod-tab-content (start)  */
+.mod-tab-content {
+    border: 5px solid #f4f4f4;
+    -moz-border-radius: 14px;
+    -moz-border-radius-topleft: 0;
+    -khtml-border-radius: 14px;
+    -khtml-border-top-left-radius: 0;
+    -webkit-border-radius: 14px;
+    -webkit-border-top-left-radius: 0;
+    border-radius: 14px;
+    border-top-left-radius: 0;
+    position: relative;
+    zoom: 1; /* Fix IE 6 bug */
+}
+.mod-tab-content .x1 {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+.mod-tab-content .x1a {
+    *background-image: url(sp_rc_15.png);
+    background-position: -15px 0;
+    height: 15px;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 15px;
+}
+.mod-tab-content .x2a {
+    *background-image: url(sp_rc_15.png);
+    background-position: 0 -15px;
+    bottom: -5px;
+    height: 15px;
+    left: -5px;
+    position: absolute;
+    width: 15px;
+}
+.mod-tab-content .x3a {
+    *background-image: url(sp_rc_15.png);
+    background-position: -15px -15px;
+    bottom: -5px;
+    height: 15px;
+    position: absolute;
+    right: -5px;
+    width: 15px;
+}
+.mod-tab-content .mod-content {
+    padding: 20px 50px;
+}
+.mod-tab-content .title h3 {
+    color: #5f5f5f;
+    font-size: 116%;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+.mod-tab-content .title p {
+    font-size: 93%;
+}
+.mod-tab-content .title .miii-button {
+    float: right;
+}
+/* mod-tab-content (end)  */
+</code></pre>
+
+h3. .mod-share-form
+
+!http://farm9.staticflickr.com/8228/8395108658_7d8a231873_o.png!
+
+_mod_share_form.css 
+
+<pre><code class="css">
+!#css
+/* .mod-share-form (start) */
+.mod-share-form fieldset ul {
+    margin-left: 20px;
+}
+.mod-share-form fieldset li {
+    float: left;
+    height: 4em;
+    margin: 10px 0;
+    overflow: hidden;
+    width: 50%;
+    *height: 3.9em;
+}
+.mod-share-form fieldset li * {
+    float: left;
+}
+.mod-share-form fieldset .del-link {
+    font-size: 85%;
+    height: 17px;
+    margin: 4px 7px 0 0;
+    position: relative;
+    overflow: hidden;
+    width: 17px;
+}
+.mod-share-form fieldset .del-link .del-icon {
+    background: url(ico_delete_user_link.png);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.mod-share-form fieldset .del-link:hover .del-icon {
+    background-image: url(ico_delete_user_hover.png);
+}
+.mod-share-form fieldset li .user-icon {
+    background: url(bg_user_icon.png) 0 0 no-repeat;
+    height: 40px;
+    width: 40px;
+    padding: 5px 6px 7px 6px;
+    margin-right: 9px;
+}
+.mod-share-form fieldset .user-info {
+    width: 140px;
+}
+.mod-share-form fieldset .user-email {
+    width: 200px;
+}
+.mod-share-form fieldset .user-email * ,
+.mod-share-form fieldset .user-info * {
+    float: none;
+    overflow: hidden;
+}
+/* .mod-share-form (end) */
+</code></pre>
