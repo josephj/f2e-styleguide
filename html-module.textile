@@ -1,25 +1,20 @@
 h1. HTML Module Style
 
-{{>toc}}
+h2. What is Module?
 
-h2. What is Component? (Div Module)
-
-For better maintenance, reusability and better code fragment, we use the idea of module development instead of developing the whole page. 
-We call each div module as an component. Each component is  *semantically independent *. For example, in article post page, form and breadcrumb should be separated into two different components since their content is nothing related. Another example, we usually have tips block on article post page. Should we separate tips block and form block into two components? The answer is no because it's a part of the form.  *Don't just make component visually *.
+For better maintenance, reusability and better code fragment, we use the idea of module development instead of developing the whole page. Each module is *semantically independent*. For example, in article post page, form and breadcrumb should be separated into two different modules since their content is nothing related. Another example, we usually have tips block on article post page. Should we separate tips block and form block into two modules? The answer is no because it's a part of the form.  *Don't just make component visually*.
 
 Idealy, the component should be portalbe (including HTML/CSS/JavaScript files) even in different services. 
-
 
 h2. Code Conventions
 
 * Each component should have an unique ID, which is not used in other components.
 * Basic component structure 
-<pre>
-<code class="xml">
-<div id="%%COMPONENT_ID%%">
+<pre><code class="html">
+<div id="module-name">
     <div class="mod-content">
         <div class="hd">
-            <h3>%COMPONENT_TITLE%</h3>
+            <h3>module title</h3>
         </div>
         <div class="bd">
         </div>
@@ -28,24 +23,7 @@ h2. Code Conventions
     </div>
 </div>
 </code></pre>
-** You can remove .hd or .ft blocks while not used. 
-* Round Corner / Shadow component structure
-<pre>
-<code class="xml">
-<div id="%%COMPONENT_ID%%">
-    <span class="x1"><span class="x1a"></span></span>
-    <span class="x2"><span class="x2a"></span></span>
-    <div class="mod-content">
-        <div class="hd">
-            <h3>%COMPONENT_TITLE%</h3>
-        </div>
-        <div class="bd">
-        </div>
-        <div class="ft">
-        </div>
-    </div>
-</div>
-</code></pre>
+* You can remove .hd or .ft blocks while not used. 
 * Always have comments at the beginning and end of file. 
 ** To show each component more clearly while viewing HTML source.
 * Use 4 spaces instead of tab.
@@ -63,8 +41,7 @@ h2. Code Conventions
 
 h2. Code Sample
 
-<pre>
-<code class="php">
+<pre><code class="php">
 <!-- #navigation (start) -->
 <div id="navigation" class="yui-menu yui-menu-horizontal yui-menubuttonnav">
     <div class="yui-menu-content">
@@ -121,10 +98,7 @@ h2. Code Sample
 <!-- #navigation (end) -->
 </code></pre>
 
-
-h2. XSS - User Input Data
-
-Note: Please also refer to [[EngineeringControllerConventions#XSS-UserInputData|XSS - User Input Data]] section in [[EngineeringControllerConventions|Controller Code Convention]].
+h2. XSS
 
 h3. Display in <input/> or <option/> Value
 
@@ -142,13 +116,3 @@ h3. Display in other elements
 <span class="name"><?php echo htmlspecialchars($first_name); ?></span>
 </code></pre>
 ** NOTE: If user input data is from Rich-text editor, don't do anything then.
-
-h2. Space issue on HTML
-
-* Use *str_convert_space()*
-* a chain of half space will be ignored as a space on HTML. So we have to change every space to "&nbsp;" on HTML.
-
-<pre>
-<code class="php">
-<a href="/my"><?php echo str_convert_space($group_name_specialchars); ?></a>
-</code></pre>
