@@ -1,5 +1,9 @@
 h1. CSS Style
 
+h2. English Only
+
+You shouldn't write any non-english characters including comments.
+
 h2. Required Comments
 
 Each file must begin with a comment block in the following format:
@@ -22,8 +26,6 @@ In general, every CSS rule begins with a selector, followed by a left curly brac
     name3: value3;
 }
 </code></pre>
-
-The rule attribute names should be in alphabetical order.
 
 h2. Units of Measurement
 
@@ -116,15 +118,36 @@ When writing CSS code, multiple selectors separated by a comma should each appea
 }
 </code></pre>
 
-h2. English Only
+h2. Alphabetical Order
 
-You shouldn't write any non-english characters including comments.
+The attribute names should be in alphabetical order. You can avoid duplicate attributes by doing this. 
+Though someone claims the ordering can cause some problems, I havn't experienced yet.
+
+<pre><code class="css">
+.selector {
+    color: #333;
+    display: table;
+    font-family: Calibri;
+    font-size: 123.1%;
+    margin: 0 10px 10px 0;
+    padding: 5px;
+    position: relative;
+    width: 500px;
+    _float: left;
+}
+</code></pre>
+
+h2. Use *-bottom and *-right
+
+It's recommended to use *-bottom and *-right attributes rather than *-top and *-left attributes. 
+Because the page flow is from top-left to right-bottom, use *-bottom or *-right attributes often reduce both the
+complexity and layout issues.
 
 h2. Font Size
 
-Use YUI Fonts
+Use YUI Fonts.
 
 h2. Layout
 
-Use YUI Grids
+Use YUI Grids.
 
