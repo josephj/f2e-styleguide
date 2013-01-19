@@ -1,12 +1,10 @@
 h1. CSS Style
 
-{{>toc}}
-
 h2. Required Comments
 
 Each file must begin with a comment block in the following format:
-<pre><code class="css">
-/**
+
+<pre><code class="css">/**
  * Today Module CSS
  * @module type_today_css
  * @author mseeley, dharmesh, cklaiber
@@ -18,13 +16,13 @@ Each file must begin with a comment block in the following format:
  * 12-Jun-09 bug #123456 nzakas
  */
 </code></pre>
+
 A brief description should be included as well as a module name. The module name should be unique in the product and should end up *_css*. A YUI Doc module is just a grouping of functionality, such as the DOM Utility, which is made up of numerous parts. This comment section should include the owners of the file, a URL to the documentation, CVS version, and code review history. Each entry for a code review should contain the date that the review was completed, the bug tracking the review, and the person who did the review.
 
 h2. General Format
 
 In general, every CSS rule begins with a selector, followed by a left curly brace on the same line. Each CSS property name-value pair should be indented 4 spaces (no tabs), on it's own line ending with a semicolon. Example:
-<pre><code class="css">
-.selector1 {
+<pre><code class="css">.selector1 {
     name1: value1;
     name2: value2;
     name3: value3;
