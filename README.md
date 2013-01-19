@@ -6,6 +6,7 @@
 * [CSS Code](css.textile)
 * [CSS Module](css-module.textile)
 * [CSS Base](css-base.textile)
+* [JavaScript Module](http://github.com/miiicasa/module)
 * [JavaScript Code](javascript.textile)
 * [JavaScript Global Constants](javascript-global-constants.textile)
 * [JavaScript Localization](javascript-localization.textile)
