@@ -2,30 +2,6 @@ h1. CSS Style
 
 {{>toc}}
 
-h2. 2010/06/21 Updates
-
-* 有時模組有需要用到第二階層，可以用 .shd, .sbd, .sft 做配合。避免再繼續使用 .hd, .bd, .ft 以免樣式互相影響。
-<pre><code class="html">
-<div id="mod">
-    <div class="bd">
-        <ul> 
-            <li>
-                <div class="shd">...</div>
-                <div class="sbd">...</div>
-                <div class="sft">...</div> 
-            </li>
-        </ul>
-    </div>
-</div>
-</code></pre>
-* 用 .first-child 或 .last-child 作為第一筆及最後一筆的 class 
-* 訊息有下列三種樣式： em.info (green) em.highlight (桃紅) em.warn (紅)
-* 統一縮寫
-** mod = module
-** button
-** func = function
-** intro = introduction 
-
 h2. Required Comments
 
 Each file must begin with a comment block in the following format:
