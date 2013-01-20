@@ -1,24 +1,5 @@
 h1. JavaScript Style
 
-h2. Principle
-
-Writing Maintainable Code.
-
-* "The Essentials of Writing High Quality JavaScript":http://net.tutsplus.com/tutorials/javascript-ajax/the-essentials-of-writing-high-quality-javascript/ :
-
-<pre>
-The fact of life related to software development in general is that usually *more time is spent reading code than writing it*. In times when you’re focused and deep into a problem, you can sit down and in one afternoon create a considerable amount of code.
-
-As a result of the changes, the few *man-hours* spent writing the code initially end up in *man-weeks* spent reading it. That’s why creating maintainable code* is critical to the success of an application.
-</pre>
-
-* Maintainable code means code that:
-** Is readable.
-** Is consistent.
-** Is predictable.
-** Looks as if it was written by the same person.
-** Is documented.
-
 h2. Formatting
 
 h3. Line Length
