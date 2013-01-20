@@ -10,7 +10,7 @@ The principle of F2E Code Style Guide is to write maintainable code.Maintainable
 * Looks as if it was written by the same person.
 * Is documented.
 
-Reference: "The Essentials of Writing High Quality JavaScript":http://net.tutsplus.com/tutorials/javascript-ajax/the-essentials-of-writing-high-quality-javascript/
+Reference: [The Essentials of Writing High Quality JavaScript](http://net.tutsplus.com/tutorials/javascript-ajax/the-essentials-of-writing-high-quality-javascript/)
 
 ## Sections
 
