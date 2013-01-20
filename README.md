@@ -1,5 +1,6 @@
 # F2E Code Style Guideline
 
+* [Abbreviation](/josephj/f2e-styleguide/blob/master/abbreviation.md)
 * [File Naming](/josephj/f2e-styleguide/blob/master/file-naming.textile)
 * [HTML Code](/josephj/f2e-styleguide/blob/master/html.textile)
 * [HTML Module](/josephj/f2e-styleguide/blob/master/html-module.textile)
