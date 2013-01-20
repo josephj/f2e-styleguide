@@ -23,6 +23,6 @@ Using abbreviation well can make our code looks easier to read. However, differe
 * grp - Does it mean grep or group?
 * exp - Does it mean experience or expire?
 
-# Note
+## Note
 
 You can add or remove abbreviation only when all team members agree.
