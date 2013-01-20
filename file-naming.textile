@@ -2,7 +2,7 @@ h1. File Naming Style
 
 h2. View and Controller Files
 
-* All module files name should be started with an underscore ( _ ).
+All module files name should be started with an underscore ( _ ).
 
 <pre>
 views/_header.php
@@ -13,9 +13,14 @@ h2. CSS and JavaScript files
 
 Like views and controller, all files which dedicated to a specific module must be started with a underscore too.
 
+<pre>
+static/_header.js
+static/_header.css
+</pre>
+
 h2. Image Files
 
-According to image characteristics, we have following prefix for image files:
+According to image characteristics, we have following prefix for image files.
 
 * ico_ : Icon images
 * bg_ : Background images
@@ -42,7 +47,7 @@ h3. Image File Name Grammar
 </pre>
 
 * *Use* these words as verb: add, modify, and remove.
-*  *Don't use* these words as verb: create, update, delete, get, and set.
+* *Don't use* these words as verb: create, update, delete, get, and set.
 * Examples:
 ** ico_folder.png
 ** ico_folder_add.png
