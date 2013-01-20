@@ -1,9 +1,9 @@
 Abbreviations
 =============
 
-Using abbreviation well can make our code looks easier to read. However, different developer always has different "abbreviation library" that often makes more confusion than benefits. To eliminate the gap and have better maintenance, here lists down the abbreviation you should and shouldn't use. 
+Using abbreviation well can make our code looks easier to read. However, different developer always has different "abbreviation library" that often makes more confusion than benefits. To eliminate the gap and have better maintenance, here lists down the abbreviation you should and shouldn't use.
 
-# Abbreviations You Should Always Use
+## Abbreviations You Should Always Use
 
 * bg = background
 * btn = button
@@ -14,10 +14,10 @@ Using abbreviation well can make our code looks easier to read. However, differe
 * js = javascript
 * mod = module
 * msg = message
-* tpl = template	
+* tpl = template
 * txt = text
 
-# Abbreviations You Should Avoid to Use
+## Abbreviations You Should Avoid to Use
 
 * cont - Does it mean container, content, count, or continue?
 * grp - Does it mean grep or group?
