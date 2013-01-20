@@ -2,7 +2,7 @@
 
 ## Principle
 
-The principle of F2E Code Style Guide is to write maintainable code.Maintainable code means code that:
+The principle of F2E Code Style Guide is to write maintainable code. Maintainable code means code that:
 
 * Is readable.
 * Is consistent.
