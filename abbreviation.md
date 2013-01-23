@@ -1,7 +1,7 @@
 Abbreviations
 =============
 
-Using abbreviation well can make our code looks easier to read. However, different developer always has different "abbreviation library" that often makes more confusion than benefits. To eliminate the gap and have better maintenance, here lists down the abbreviation you should and shouldn't use.
+Using abbreviation well can make our code looks easier to read. However, different developer always has different abbreviation vocabularies that often makes more confusion than benefits. To eliminate the gap and have better maintenance, here lists down the abbreviation you should and shouldn't use.
 
 ## Abbreviations You Should Always Use
 
