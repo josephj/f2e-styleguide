@@ -1,0 +1,309 @@
+JavaScript Code Conventions
+----------------------------
+
+## Formatting
+
+### Line Length
+
+Avoid lines longer than *120 characters*. When a statement will not fit on a single line, it may be necessary to break it. Place the break after an operator, ideally after a comma. A break after an operator decreases the likelihood that a copy-paste error will be masked by semicolon insertion. The next line should be indented 8 spaces.
+
+### Quote
+
+Use single quotes in most situations. Use double quotes when string contains single quote.
+
+```js
+var message = 'Today is a huge day!';
+var html = "It's my pleasure."
+```
+
+### Indentation
+
+JavaScript code should be indented 4 spaces.
+
+## Variables
+
+All variable names begin with *a word* and use *camelCase* (first letter of each new word is capitalized).
+
+```js
+personName
+
+```
+
+* Variables should indicate their type in one of the following ways:
+
+    | Type          | Usage            | Example         |
+    | --------------|------------------|-----------------|
+    | HTMLElement   | variable*El*     | bodyEl          |
+    | jQuery Object | *$*variable      | $body           |
+    | Array         | variable*s*      | items           |
+    | Date          | variable*Time*   | startTime       |
+    | Boolean       | *is*Variable     | isActive        |
+    |               | *has*Variable    | hasTag          |
+    | Event Handler | *handle*Variable | handleLinkClick |
+    | Object        | -                |                 |
+    | Integer       | -                |                 |
+    | String        | -                |                 |
+
+## Constants
+
+Variables or property names that are intended to be constant values (that is, they should not be changed later),
+should be in all uppercase with words separate by underscores. Example:
+
+```js
+var MAXIMUM_TIMEOUT = 10000;
+```
+
+Constants should always be used whenever dealing with:
+
+* *URLs* - These may change in the future, it's best to keep them out of your business logic.
+* *Settings* - Things that control the UI or other settings that may change in the future.
+* *Repeated strings* - Any string that is used in your code more than once should be a constant.
+
+## Objects
+
+### Properties
+
+* Public property names should be formatted in camel case but not in Hungarian notation. This helps to keep the public API clean. For example:
+    ```js
+    this.className = "My";  //correct
+    this.strClassName = "My";  //avoid!!
+    ```
+
+* Private property names should be formatted in the same way but should be prefixed with an underscore:
+    ```js
+    var _name = "My";
+    ```
+
+   * Module properties are considered to be public so using the underscore is not necessary.
+
+
+### Methods
+
+* Public method names should be formatted in camel case but not in Hungarian notation. For example:
+    ```js
+    MyObject.prototype.getName = function () { ... }    //correct
+    MyObject.prototype.fnGetName = function () { ... }  //avoid!!
+    ```
+* All methods should include trace information using  *Y.log*. The format should be as follows:
+<pre><code class="javascript">
+Y.log("<method name>() <message>", "<severity>", "<module name>");
+</code></pre>
+** The method name should always appear first, followed be a message (such as "foo() is executed."). The second argument should be kept as "info". The third argument should be the module name (for example, "space-centralize" or "space/photos/_list"), which aids in filtering the trace messages.
+** Public methods, minimally, must have a  *Y.log*  statement as the first line of the method, specifying the arguments that were passed in. For example:
+<pre><code class="javascript">
+MyObject.prototype.setName = function (name) {
+    Y.log("setName(): Setting name to " + name, "info", "space");
+    this.name = name;
+}
+</code></pre>
+** All references to  *Y.log()*  and  *this.Y.log()*  will be stripped out as part of the build process.
+** Note: If you are developing under the "Module":https://github.com/miiicasa/javascript-platform-yui environment, always use  *_api.log*  instead.
+
+## Coding Practices
+
+### Abbreviation
+
+Use the following abbreviation.
+
+* msg, txt,
+
+DON't use the following abbreviation.
+
+* cont, def,
+
+### English Only
+
+You shouldn't write any non-english characters including comments.
+For prompting message functions such as alert(), you should use getTrans() instead of writing non-english words directly.
+
+### Declare Variables at the Beginning of Functions
+
+Whenever possible, all variables used in a function should be declared at the beginning of the function using  *var*.
+
+### Event Delegation
+
+Each view should have *only one click event handler*. This can be attached on the view node itself and should handle all clicks for the view:
+
+```js
+var body = moduleapi.getViewNode("default");
+body.on("click", this.handleClick, this, true);
+```
+
+### Create Shortcut Variables for Object Properties
+
+When an object property is referenced two or more times within a function, create a shortcut variable for it.
+This reduces the amount of code, enables the YUI Compressor to perform variable replacement on it,
+and reduces the lookup time for the value (each property lookup is more expensive than a property lookup). For example:
+
+```js
+// Avoid
+$('#foo').on('click', this.handleClick);
+$('#foo').addClass('selected');
+```
+
+The code above should be rewritten as follows:
+
+```js
+// correct
+var $foo = $('#foo');
+$foo.on('click', this.handleClick);
+$foo.addClass('selected');
+```
+
+### Avoid Using Globals
+
+Global variables such as *window* and  *document*  should not be used or assumed to be available.
+It's possible that modules may need to work in a locked-down environment where such variables are not accessible.
+You should be able to do everything necessary using just facilities provided by modules.
+
+### Condition Operator Usage
+
+The condition operator (*?:*) should be used only to assign variables and never for code that doesn't assign a value.
+
+```js
+//proper use
+var value = (condition ? 100 : 200);
+
+//AVOID!!! Doesn't assign a value - use if statement instead
+(condition ? doSomething() : null);
+```
+
+Any time a condition doesn't return a value, an *if* statement should be used instead.
+
+### Function Declarations
+
+All functions should be declared before they are used. Anonymous functions should follow the var statement and end with a semi-colon.
+This helps make it clear what variables are included in its scope.
+
+There should be no space between the name of a function and the (  (left parenthesis) of its parameter list.
+There should be one space between the ) (right parenthesis)  and the { (left curly brace) that begins the statement body.
+The body itself is indented four spaces. The }  (right curly brace) is aligned with the line containing the beginning of the declaration of the function.
+
+```js
+function getData() {
+}
+var getData = function () {
+};
+```
+
+### === and !== Operators.
+
+It is almost always better to use the === and !== operators. The \== and != operators do type coercion.
+In particular, do not use == to compare against falsy values.
+
+### Statements
+
+All block statements, regardless of the number of lines, should use curly braces. There should be a line break after the left curly brace and the lines inside should be indented. For example:
+
+```js
+if (true) {
+    doSomething();
+}
+
+if (true) doSomething();    //avoid!!
+
+if (true)
+    doSomething();            //avoid!!
+
+```
+
+Take *if* Statement as example, the class of statements should have the following form:
+
+```js
+if (condition) {
+    statements
+}
+
+if (condition) {
+    statements
+} else {
+    statements
+}
+
+if (condition) {
+    statements
+} else if (condition) {
+    statements
+} else {
+    statements
+}
+```
+
+A *for* class of statements should have the following form:
+
+```js
+for (initialization; condition; update) {
+    statements
+}
+
+for (var i = 0, j = items.length; i < j; i++) {
+    statements
+}
+
+for (var variable in object) {
+    statements
+}
+```
+
+### OOP
+
+You should avoid use 'this' in OOP JavaScript, it's very confusing because it might means the instance, the window, or the event target.
+Always assign to '*that*' variable at very beginning of a function.
+
+```js
+play: function () {
+    var that = this;
+    ...
+}
+```
+
+### Naming for Event Handler / Message Listener
+
+The name of a event handler should start with the word "*handle*".
+
+```js
+_handleClick: function (e) {
+    e.preventDefault();
+}
+```
+
+### Logging
+
+* For tracing code easier, you should always log at the beginning of a function.
+<pre><code class="js">_api.log("init() is executed.");</code></pre>
+* Always specify the third parameter, the module name, in Y.log method. It is very helpful to filter the logging output by setting YUI config's logInclude or logExclude attributes.
+<pre><code class="js">Y.log("init() is executed.", "info", "#photos-list");</code></pre>
+** Forget this if it's a module using miiiCasa's module library.
+<pre><code class="js">_api.log("init() is executed.");</code></pre>
+* If it's a view module, the module name must be its selector. (#photo-list)
+<pre><code class="js">Y.log("init() is executed.", "info", "#photo-list");
+_api.log("init() is executed"); // equals to the above line if you use module library. </code></pre>
+* If it's not a view module (a customized YUI module), just use it's module name for logging.
+<pre><code class="js">Y.log("play() is executed.", "info", "vlc"); </code></pre>
+* If it's module name contains folder architecture, use the last word for logging.
+<pre><code class="js">Y.log("parse() is executed.", "info", "video-parser"); </code></pre>
+* You should exclude any logging message before committing your code.
+
+### Alphabetical Order
+
+Under the premise of not breaking a function, make collections default values with alphabetical order.
+
+```js
+// Please insert it alphabetical order.
+AUDIO : ["AMR", "AAC", "AIFF", "MP3", "MIDI", "MID", "M4A", "OGG", "MMF", "WAV", "WMA" ],
+VIDEO : [
+    "3GP", "3G2", "3GP2", "3GPP", "AMV", "ASF", "ASX", "AVI", "CUE", "DAT", "DIVX", "DV", "FLV", "GXF", "ISO",
+    "MPA", "MP2", "MPG", "MPEG", "MPE", "MPG", "MOV", "MP4", "MP4V", "M4V", "MKV", "MPEG1", "MPEG2", "MPEG4",
+    "M2T", "M2TS", "MPV2",  "MTS", "M1V", "M2V", "MXF",
+    "NSV", "NUV", "OGM", "OGV", "OGX", "PS", "QT", "REC", "RAM", "RM", "RA", "RMVB", "RAM", "SWF", "TS", "TOD",
+    "TTS", "VRO", "VOB", "VIV", "WMV", "WM", "WEBM"
+],
+PHOTO : ["BMP", "CDR", "CMF", "CUR", "DAT", "GIF", "ICO", "JPG", "JEPG", "PSD", "PNG"]
+```
+
+## Reference
+
+* "Code Conventions for the JavaScript Programming Language":http://javascript.crockford.com/code.html
+* "Google JavaScript style Guide":http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+* "The Essentials of Writing High Quality JavaScript":http://net.tutsplus.com/tutorials/javascript-ajax/the-essentials-of-writing-high-quality-javascript/
+
