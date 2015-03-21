@@ -76,7 +76,7 @@ Y.log("<method name>() <message>", "<severity>", "<module name>");
 </code></pre>
 ** The method name should always appear first, followed be a message (such as "foo() is executed."). The second argument should be kept as "info". The third argument should be the module name (for example, "space-centralize" or "space/photos/_list"), which aids in filtering the trace messages.
 ** Public methods, minimally, must have a  *Y.log*  statement as the first line of the method, specifying the arguments that were passed in. For example:
-<pre><code class="javascript">
+<pre><code class="js">
 MyObject.prototype.setName = function (name) {
     Y.log("setName(): Setting name to " + name, "info", "space");
     this.name = name;
